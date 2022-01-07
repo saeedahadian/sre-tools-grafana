@@ -1,0 +1,27 @@
+version: "3.9"
+
+services:
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - 9209:3000
+    dns:
+      - 8.8.8.8
+      - 9.9.9.9
+    volumes:
+      - grafana-storage:/var/lib/grafana
+      - ./plugins:/var/lib/grafana/plugins
+      #- ./log:/var/log/grafana
+      - ./grafana.ini:/etc/grafana/grafana.ini
+    networks:
+      - elastic-net
+
+volumes:
+  grafana-storage:
+    name: grafana-storage
+
+networks:
+  elastic-net:
+    external: true
